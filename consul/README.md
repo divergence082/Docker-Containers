@@ -1,5 +1,6 @@
 # consul            
-  
+
+```
 docker build -t divergence082/consul:0.6.4 .        
 docker push divergence082/consul:0.6.4                            
   
@@ -10,3 +11,4 @@ docker run -d \
            --name=consul-0.6.4-0 \                                
            divergence082/consul:0.6.4                                 
            
+```
