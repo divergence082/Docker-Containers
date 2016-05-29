@@ -1,6 +1,6 @@
 FROM alpine:3.3
 
-MAINTAINER divergence082
+MAINTAINER divergence082 <divergence082@gmail.com>
 
 # Set environment variables
 ENV CONSUL_VERSION=0.6.4

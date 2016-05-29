@@ -1,6 +1,6 @@
 FROM anapsix/alpine-java:jdk8
 
-MAINTAINER divergence082
+MAINTAINER divergence082 <divergence082@gmail.com>
 
 # Set environment variables
 ENV SCALA_VERSION=2.11
