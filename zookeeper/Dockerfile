@@ -13,7 +13,7 @@ ENV ZOOCFGDIR=/zookeeper/config
 # Create necessary folders
 RUN mkdir -p /zookeeper/data /zookeeper/log /opt
 
-# Download and unpack Kafka
+# Download and unpack Zookeeper
 ADD http://apache-mirror.rbc.ru/pub/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz /opt
 RUN cd /opt && tar xzvf zookeeper-${ZOOKEEPER_VERSION}.tar.gz
 
