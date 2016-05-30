@@ -9,7 +9,7 @@ ENV FULL_KAFKA_VERSION=${SCALA_VERSION}-${KAFKA_VERSION}
 ENV KAFKA_HOME /opt/kafka_${FULL_KAFKA_VERSION}
 
 # Create necessary folders
-RUN mkdir -p /kafka/log /kafka/data /kafka/zookeeper/data /opt
+RUN mkdir -p /kafka/log /kafka/data /opt
 
 # Download and unpack Kafka
 ADD http://apache-mirror.rbc.ru/pub/apache/kafka/${KAFKA_VERSION}/kafka_${FULL_KAFKA_VERSION}.tgz /opt
