@@ -1,0 +1,29 @@
+{
+    "data_dir": "/opt/consul/data",
+    "ui_dir": "/opt/consul/ui",
+    "log_level": "warn",
+    "client_addr": "0.0.0.0",
+    "bind_addr": "127.0.0.1",
+    "ports": {
+        "dns": 8600,
+        "http": 8500,
+        "https": -1,
+        "rpc": 8400,
+        "serf_lan": 8301,
+        "serf_wan": 8302,
+        "server": 8300
+    },
+    "dns_config": {
+        "allow_stale": true,
+        "max_stale": "5s",
+        "node_ttl": "0s",
+        "service_ttl": {
+            "*": "0s"
+        },
+        "enable_truncate": false,
+        "only_passing": false
+    },
+    "reap": true,
+    "disable_remote_exec": true,
+    "disable_update_check": true
+}

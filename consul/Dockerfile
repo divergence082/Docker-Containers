@@ -4,21 +4,14 @@ MAINTAINER divergence082 <divergence082@gmail.com>
 
 # Set environment variables
 ENV ENV_CONSUL_VERSION=0.6.4
-ENV ENV_CONSUL_UI_DIR=/consul/ui
-ENV ENV_CONSUL_DATA_DIR=/consul/data
-ENV ENV_CONSUL_CONFIG_DIR=/consul/config
+ENV ENV_CONSUL_WORKDIR=/consul
+ENV ENV_CONSUL_UI_DIR=${ENV_CONSUL_WORKDIR}/ui
+ENV ENV_CONSUL_DATA_DIR=${ENV_CONSUL_WORKDIR}/data
+ENV ENV_CONSUL_CONFIG_DIR=${ENV_CONSUL_WORKDIR}/config
 
-# Install utils
-RUN apk add --update py-pip && pip install envtpl
-
-# Create necessary folders and files
-WORKDIR /consul
+# Create necessary folders
+WORKDIR ${ENV_CONSUL_WORKDIR}
 RUN mkdir -p ${ENV_CONSUL_DATA_DIR} ${ENV_CONSUL_UI_DIR}
-
-# Organize configs
-ADD config/consul.json.tpl ${ENV_CONSUL_CONFIG_DIR}/
-RUN envtpl < ${ENV_CONSUL_CONFIG_DIR}/consul.json.tpl > ${ENV_CONSUL_CONFIG_DIR}/consul.json
-RUN cat ${ENV_CONSUL_CONFIG_DIR}/consul.json
 
 # Download and install consul
 ADD https://releases.hashicorp.com/consul/${ENV_CONSUL_VERSION}/consul_${ENV_CONSUL_VERSION}_linux_amd64.zip /tmp/consul.zip
@@ -33,5 +26,8 @@ RUN cd ${ENV_CONSUL_UI_DIR} && \
     unzip /tmp/webui.zip && \
     rm /tmp/webui.zip
 
-# Run consul
+# Mount necessary folders
+VOLUME ${ENV_CONSUL_CONFIG_DIR}
+
+# Run
 ENTRYPOINT /bin/consul agent -config-file=${ENV_CONSUL_CONFIG_DIR}/consul.json
