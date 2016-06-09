@@ -1,17 +1,59 @@
 version: '2'
 services:
-  zookeeper:
+  zookeeper-0:
     image: divergence082/zookeeper:3.4.8
+    command: /zookeeper/scripts/zookeeper-start.sh
     container_name: zookeeper-3.4.8-0
-    dns:
-      - 127.0.0.1
     volumes:
-      - /opt/zookeeper/3.4.8/log:/zookeeper/log
       - /opt/zookeeper/3.4.8/config:/zookeeper/config
     networks:
-      - zookeeper_net
+      zookeeper_net:
+        ipv4_address: 172.16.239.30
+    hostname: zk0.host
+    ports:
+      - "2180:2181"
+      - "2888:2888"
+      - "3888:3888"
+    extra_hosts:
+      - "zk1.host:172.16.239.31"
+      - "zk2.host:172.16.239.32"
+
+  zookeeper-1:
+    image: divergence082/zookeeper:3.4.8
+    command: /zookeeper/scripts/zookeeper-start.sh
+    container_name: zookeeper-3.4.8-1
+    volumes:
+      - /opt/zookeeper/3.4.8/config:/zookeeper/config
+    networks:
+      zookeeper_net:
+        ipv4_address: 172.16.239.31
+    hostname: zk1.host
     ports:
       - "2181:2181"
+      - "2889:2889"
+      - "3889:3889"
+    extra_hosts:
+      - "zk0.host:172.16.239.30"
+      - "zk2.host:172.16.239.32"
+
+  zookeeper-2:
+    image: divergence082/zookeeper:3.4.8
+    command: /zookeeper/scripts/zookeeper-start.sh
+    container_name: zookeeper-3.4.8-2
+    volumes:
+      - /opt/zookeeper/3.4.8/config:/zookeeper/config
+    networks:
+      zookeeper_net:
+        ipv4_address: 172.16.239.32
+    hostname: zk2.host
+    ports:
+      - "2182:2181"
+      - "2890:2890"
+      - "3890:3890"
+    extra_hosts:
+      - "zk0.host:172.16.239.30"
+      - "zk1.host:172.16.239.31"
+
 networks:
   zookeeper_net:
     driver: bridge
@@ -20,7 +62,5 @@ networks:
     ipam:
       driver: default
       config:
-      - subnet: 172.16.238.0/24
-        gateway: 172.16.238.1
-        aux_addresses:
-          zookeeper: 172.16.238.9
+      - subnet: 172.16.239.0/24
+        gateway: 172.16.239.1

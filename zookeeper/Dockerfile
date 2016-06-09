@@ -5,6 +5,7 @@ MAINTAINER divergence082 <divergence082@gmail.com>
 # Set environment variables
 ENV ENV_ZOOKEEPER_VERSION=3.4.8
 ENV ENV_ZOOKEEPER_WORKDIR=/zookeeper
+ENV ENV_ZOOKEEPER_SCRIPTS_DIR=${ENV_ZOOKEEPER_WORKDIR}/scripts
 ENV ZOO_LOG_DIR=${ENV_ZOOKEEPER_WORKDIR}/log
 ENV ZOO_DATADIR=${ENV_ZOOKEEPER_WORKDIR}/data
 ENV ZOOCFGDIR=${ENV_ZOOKEEPER_WORKDIR}/config
@@ -21,5 +22,10 @@ RUN cd /opt && tar xzvf zookeeper-${ENV_ZOOKEEPER_VERSION}.tar.gz
 # Mount necessary folders
 VOLUME ${ZOOCFGDIR}
 
+# Copy scripts
+RUN mkdir -p ${ENV_ZOOKEEPER_SCRIPTS_DIR}
+ADD scripts/* ${ENV_ZOOKEEPER_SCRIPTS_DIR}/
+RUN chmod a+x ${ENV_ZOOKEEPER_SCRIPTS_DIR}/zookeeper-start.sh
+
 # Run
-ENTRYPOINT ${ENV_ZOOKEEPER_HOME}/bin/zkServer.sh start-foreground
+#ENTRYPOINT ${ENV_ZOOKEEPER_HOME}/bin/zkServer.sh start-foreground
