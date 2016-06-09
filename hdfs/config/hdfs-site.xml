@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>dfs.permissions.superusergroup</name>
+    <value>hadoop</value>
+  </property>
+
+  <!-- DFS_NAME_DIR -->
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file:///grid/hadoop/hdfs/nn/0,file:///grid/hadoop/hdfs/nn/1</value>
+  </property>
+
+  <!-- DFS_NAME_DIR -->
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file:///grid/hadoop/hdfs/dn/0,file:///grid/hadoop/hdfs/dn/1,file:///grid/hadoop/hdfs/dn/2</value>
+  </property>
+
+  <property>
+    <name>dfs.namenode.http-address</name>
+    <value>namenode.host:50070</value>
+    <description>
+      The address and the base port on which the dfs NameNode Web UI will listen.
+    </description>
+  </property>
+
+  <!-- FS_CHECKPOINT_DIR -->
+  <property>
+    <name>dfs.namenode.checkpoint.dir</name>
+    <value>file:///grid/hadoop/hdfs/snn/0,file:///grid/hadoop/hdfs/snn/1,file:///grid/hadoop/hdfs/snn/2</value>
+  </property>
+
+</configuration>

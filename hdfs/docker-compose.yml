@@ -1,0 +1,85 @@
+version: '2'
+services:
+  hdfs-namenode:
+    image: divergence082/hdfs:cdh-5.11
+    command: /scripts/namenode-start.sh
+    container_name: hdfs-namenode-cdh-5.11
+    tty: true
+    environment:
+      - USER=dev
+      - NAMENODE_PREFIX=/grid/hadoop/hdfs/nn
+      - NAMENODE_DIRS_COUNT=2
+    volumes:
+      - /opt/hdfs/cdh-5.11/config:/etc/hadoop/conf.my_cluster
+    networks:
+      hdfs_net:
+        ipv4_address: 172.16.238.10
+    hostname: namenode.host
+    ports:
+      - "9000:9000"
+      - "50070:50070"
+      - "50470:50470"
+    extra_hosts:
+      - "snamenode.host:172.16.238.11"
+      - "datanode.host:172.16.238.20"
+
+  hdfs-secondary-namenode:
+    image: divergence082/hdfs:cdh-5.11
+    command: /scripts/secondary-namenode-start.sh
+    container_name: hdfs-secondary-namenode-cdh-5.11
+    tty: true
+    environment:
+      - USER=dev
+      - SNAMENODE_PREFIX=/grid/hadoop/hdfs/snn
+      - SNAMENODE_DIRS_COUNT=3
+    depends_on:
+      - hdfs-namenode
+    volumes:
+      - /opt/hdfs/cdh-5.11/config:/etc/hadoop/conf.my_cluster
+    networks:
+      hdfs_net:
+        ipv4_address: 172.16.238.11
+    hostname: snamenode.host
+    ports:
+      - "50090:50090"
+    extra_hosts:
+      - "namenode.host:172.16.238.10"
+      - "datanode.host:172.16.238.20"
+
+  hdfs-datanode:
+    image: divergence082/hdfs:cdh-5.11
+    command: /scripts/datanode-start.sh
+    container_name: hdfs-datanode-cdh-5.11
+    tty: true
+    environment:
+      - USER=dev
+      - DATANODE_PREFIX=/grid/hadoop/hdfs/dn
+      - DATANODE_DIRS_COUNT=3
+    depends_on:
+      - hdfs-namenode
+    volumes:
+      - /opt/hdfs/cdh-5.11/config:/etc/hadoop/conf.my_cluster
+    networks:
+      hdfs_net:
+        ipv4_address: 172.16.238.20
+    hostname: datanode.host
+    ports:
+      - "8010:8010"
+      - "50010:50010"
+      - "50020:50020"
+      - "50475:50475"
+    extra_hosts:
+      - "namenode.host:172.16.238.10"
+      - "snamenode.host:172.16.238.11"
+
+networks:
+  hdfs_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+        gateway: 172.16.238.1
+

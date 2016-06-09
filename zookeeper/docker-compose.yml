@@ -1,0 +1,26 @@
+version: '2'
+services:
+  zookeeper:
+    image: divergence082/zookeeper:3.4.8
+    container_name: zookeeper-3.4.8-0
+    dns:
+      - 127.0.0.1
+    volumes:
+      - /opt/zookeeper/3.4.8/log:/zookeeper/log
+      - /opt/zookeeper/3.4.8/config:/zookeeper/config
+    networks:
+      - zookeeper_net
+    ports:
+      - "2181:2181"
+networks:
+  zookeeper_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+        gateway: 172.16.238.1
+        aux_addresses:
+          zookeeper: 172.16.238.9

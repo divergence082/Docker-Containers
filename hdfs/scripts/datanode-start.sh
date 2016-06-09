@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
 
-su - ${HDFS_USER}
-/usr/hdp/current/hadoop-hdfs-datanode/../hadoop/sbin/hadoop-daemon.sh --config ${HADOOP_CONF_DIR} start datanode
+useradd -G hadoop ${USER}
+
+for ((i=0;i<${DATANODE_DIRS_COUNT};i++));do
+  mkdir -p ${DATANODE_PREFIX}/${i}
+  chown -R hdfs:hdfs ${DATANODE_PREFIX}/${i}
+  chmod 700 ${DATANODE_PREFIX}/${i}
+done
+
+trap "/etc/init.d/hadoop-hdfs-datanode stop" SIGTERM SIGKILL
+
+/etc/init.d/hadoop-hdfs-datanode start
+

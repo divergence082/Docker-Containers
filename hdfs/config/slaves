@@ -1,0 +1,4 @@
+namenode.host
+snamenode.host
+journalnode.host
+datanode.host
