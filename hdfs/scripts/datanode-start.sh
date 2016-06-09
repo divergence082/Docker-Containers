@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-useradd -G hadoop ${USER}
+id -u ${USER} &>/dev/null || useradd -G hadoop ${USER}
 
 for ((i=0;i<${DATANODE_DIRS_COUNT};i++));do
   mkdir -p ${DATANODE_PREFIX}/${i}
@@ -12,3 +12,4 @@ trap "/etc/init.d/hadoop-hdfs-datanode stop" SIGTERM SIGKILL
 
 /etc/init.d/hadoop-hdfs-datanode start
 
+tail -f /var/log/hadoop-hdfs/*.log
