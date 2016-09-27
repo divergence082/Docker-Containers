@@ -1,5 +1,5 @@
 # beanstalkd            
-
+[![](https://images.microbadger.com/badges/image/divergence082/beanstalkd.svg)](https://microbadger.com/images/divergence082/beanstalkd "Get your own image badge on microbadger.com")
 ```
 docker build -t divergence082/beanstalkd:1.10 .  
 ```
